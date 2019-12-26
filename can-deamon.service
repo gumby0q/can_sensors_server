@@ -1,0 +1,14 @@
+[Unit]
+Description=can deamon
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/node server.js
+WorkingDirectory=/home/pi/can
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target

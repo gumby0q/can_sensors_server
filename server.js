@@ -4,7 +4,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3001;
 var can = require('socketcan');
-var channel = can.createRawChannel("can1", true);
+var channel = can.createRawChannel("can0", true);
 
 
 const BOILER_MESSAGE_ID = 0x0d0;

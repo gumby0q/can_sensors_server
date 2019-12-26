@@ -116,7 +116,7 @@ channel.addListener("onMessage", function(msg) {
    } else if (msg.id == BOILER_MESSAGE_ID) {
      const unpackedBoilerTemperature = bufferpack.unpack('<f', msg.data, 0);
      io.emit('chat message',"boilerTemperature: " + (unpackedBoilerTemperature[0]));
-     postInflux('boilerTemperature', unpackedBoilerTemperature)
+     postInflux('boilerTemperature', unpackedBoilerTemperature[0])
    }
 });
 

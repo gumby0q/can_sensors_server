@@ -70,29 +70,18 @@ io.on('connection', function(socket){
 	const tempBuffer = msg.split(':');
 	console.log('tempBuffer', tempBuffer);
 
-	const id = parseInt(tempBuffer[0], 16);
+	const id = tempBuffer[0];
 	console.log('id', id);
-	const message = tempBuffer[1];
+	const message = tempbuffer[1];
 	console.log('message', message);
 
-	if (message) {
-		const messageArray = [];
+	const messageBuffer = Buffer.from(message);
+	const packedMessage = bufferpack.pack('<BBBBBBBB');	
 	
-		for (let i = 0; i < 8; i++) {
-			const firstPart = message[i*2] || '0';
-			const secondPart = message[i*2 +1] || '0';
-			messageArray.push(parseInt(firstPart + secondPart, 16));
-		}
+	channel.send({ id, length: packedMessage.length, data: packedMessage, ext: false });	
 
-		const messageBuffer = Buffer.from(messageArray);
-		const packedMessage = bufferpack.pack('BBBB', messageBuffer);	
-
-		console.log('packedMessage', packedMessage);	
-		channel.send({ id, length: packedMessage.length, data: packedMessage, ext: false });	
-
-		console.log("send->", msg);
-  		io.emit('chat message',msg);
-	}
+	console.log("send->", msg);
+  	io.emit('chat message',msg);
   });
 });
 
@@ -124,7 +113,8 @@ function postInflux(field,value){
 
 // Log any message
 channel.addListener("onMessage", function(msg) {
-   io.emit('chat message', `id:${msg.id.toString(16)} m:${msg.data.toString('hex')}`);
+'id:', msg.id.toString(16),
+   io.emit('id:', msg.id.toString(16), 'chat message', msg.data.toString('hex'));
    console.log('id->', msg.id.toString(16), "receive->", msg.id, msg.data.toString('hex'));
 
 

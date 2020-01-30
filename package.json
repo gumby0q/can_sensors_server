@@ -1,0 +1,30 @@
+{
+  "name": "can",
+  "version": "1.0.0",
+  "description": "",
+  "main": "post-influx.js",
+  "dependencies": {
+    "bufferpack": "^0.0.6",
+    "express": "^4.15.2",
+    "influx": "^5.4.2",
+    "nodemon": "^2.0.2",
+    "socket.io": "^2.3.0",
+    "socketcan": "^2.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "nodemon": "node_modules/nodemon/bin/nodemon.js server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gumby0q/can_sensors_server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gumby0q/can_sensors_server/issues"
+  },
+  "homepage": "https://github.com/gumby0q/can_sensors_server#readme"
+}

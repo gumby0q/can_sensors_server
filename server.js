@@ -112,7 +112,7 @@ function postInflux(field,value){
         database: 'measurements_logs',
     })
     .then(() => {
-        return influx.query(`select * from sensor`)
+        // return influx.query(`select * from sensor`)
     }).then(rows => {
        // console.log(rows);
         // rows.forEach(row => console.log(`A request to ${row.path} took ${row.duration}ms`))
@@ -128,24 +128,24 @@ channel.addListener("onMessage", function(msg) {
    console.log('id->', msg.id.toString(16), "receive->", msg.id, msg.data.toString('hex'));
 
 
-   if (msg.id == HUMIDITY_MESSAGE_ID) {
-      var unpackedHumidity = bufferpack.unpack('<I', msg.data, 0);
-      io.emit('chat message',"humidity: "+(unpackedHumidity[0]/1024));
-      postInflux('humidity',(unpackedHumidity/1024));
-   } else if (msg.id == TEMPERATURE_MESSAGE_ID) {
-     var unpackedTemperature = bufferpack.unpack('<l', msg.data, 0);
-     io.emit('chat message', "temperature: "+(unpackedTemperature[0]/100));
-     postInflux('temperature',(unpackedTemperature[0]/100))
-   } else if (msg.id == PREASURE_MESSAGE_ID) {
-     var unpackedPresure = bufferpack.unpack('<I', msg.data, 0);
-     io.emit('chat message',"pressure: "+(unpackedPresure[0]/10000));
-     postInflux('pressure',(unpackedPresure[0]/10000))
-   
-   } else if (msg.id == BOILER_MESSAGE_ID) {
-     const unpackedBoilerTemperature = bufferpack.unpack('<f', msg.data, 0);
-     io.emit('chat message',"boilerTemperature: " + (unpackedBoilerTemperature[0]));
-     postInflux('boilerTemperature', unpackedBoilerTemperature[0])
-   }
+  if (msg.id == HUMIDITY_MESSAGE_ID) {
+    var unpackedHumidity = bufferpack.unpack('<I', msg.data, 0);
+    io.emit('chat message',"humidity: "+(unpackedHumidity[0]/1024));
+    postInflux('humidity',(unpackedHumidity/1024));
+  } else if (msg.id == TEMPERATURE_MESSAGE_ID) {
+    var unpackedTemperature = bufferpack.unpack('<l', msg.data, 0);
+    io.emit('chat message', "temperature: "+(unpackedTemperature[0]/100));
+    postInflux('temperature',(unpackedTemperature[0]/100))
+  } else if (msg.id == PREASURE_MESSAGE_ID) {
+    var unpackedPresure = bufferpack.unpack('<I', msg.data, 0);
+    io.emit('chat message',"pressure: "+(unpackedPresure[0]/10000));
+    postInflux('pressure',(unpackedPresure[0]/10000))
+
+  } else if (msg.id == BOILER_MESSAGE_ID) {
+    const unpackedBoilerTemperature = bufferpack.unpack('<f', msg.data, 0);
+    io.emit('chat message',"boilerTemperature: " + (unpackedBoilerTemperature[0]));
+    postInflux('boilerTemperature', unpackedBoilerTemperature[0])
+  }
 });
 
 channel.start();
